@@ -1,5 +1,7 @@
+mod config;
+
 use std::path::Path;
-use tracing::{debug, info, warn};
+use tracing::{debug, info};
 use tracing_subscriber::EnvFilter;
 
 pub type Result<T> = core::result::Result<T, Error>;
@@ -15,23 +17,22 @@ fn main() -> Result<()> {
     
     for path in paths {
         debug!("Listing files for path: {}", path);
-        let path = Path::new(path);
-        
-        match std::fs::read_dir(path) {
-            Ok(entries) => {
-                let files: Vec<String> = entries
-                    .filter_map(|re| re.ok())
-                    .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))
-                    .filter_map(|e| e.file_name().into_string().ok())
-                    .collect();
-                debug!("Files found: {files:#?}");
-            },
-            Err(e) => {
-                warn!("Failed to read directory '{}': {}", path.display(), e);
-            }
-        }
+        let files = list_files(path);
+        debug!("{files:#?}");
     }
 
     info!("rust-start complete");
     Ok(())
+}
+
+fn list_files(path: &str) -> Result<Vec<String>> {
+    let path = Path::new(path);
+
+    let files = std::fs::read_dir(path)?
+        .filter_map(|re| re.ok())
+        .filter(|e| e.file_type().map(|ft| ft.is_file()).unwrap_or(false))
+        .filter_map(|e| e.file_name().into_string().ok())
+        .collect();
+
+    Ok(files)
 }
