@@ -1,2 +1,10 @@
+# Environment variables set for all `cargo ...` commands.
 [env]
+
+# This file will not deploy to Kubernetes - should be managed by secrets
+
+# Scope down tracing, to filter out external lib tracing
 RUST_LOG="rust_start=debug"
+SERVICE_CONFIG_VAR_ONE="config var one"
+
+
