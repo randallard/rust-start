@@ -1,4 +1,4 @@
-use crate::Result;
+use crate::{Result, Error};
 
 use std::path::Path;
 
@@ -13,7 +13,7 @@ pub fn list_files(path: &str) -> Result<Vec<String>> {
         .collect();
 
     if files.is_empty() {
-        return Err("Empty Dir - Return error manually".into())
+        return Err(Error::EmptyFolder);
     }
 
     Ok(files)
