@@ -8,3 +8,6 @@ derive_more = {version = "1.0.0-beta", features = ["from", "display"] }
 serde = { version = "1", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+tempfile = "3.2"
