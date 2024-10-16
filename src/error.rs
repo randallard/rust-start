@@ -5,8 +5,8 @@ pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug, From)]
 pub enum Error {
-    // -- fs (module)
-    EmptyFolder,
+    // -- MyModule
+    ProjectError,
 
     // -- Externals
     #[from]
@@ -18,7 +18,7 @@ pub enum Error {
 impl core::fmt::Display for Error {
     fn fmt(&self, fmt: &mut core::fmt::Formatter) -> core::result::Result<(), core::fmt::Error> {
         match self {
-            Error::EmptyFolder => {
+            Error::ProjectError => {
                 error!("{self:?}");
                 write!(fmt, "{self:?}")
             }

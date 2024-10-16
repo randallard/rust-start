@@ -4,7 +4,7 @@
 # This file will not deploy to Kubernetes - should be managed by secrets
 
 # Scope down tracing, to filter out external lib tracing
-RUST_LOG="rust_start=info" # comment out for error only tracing, change info to debug for verbose
+RUST_LOG="rust_start=debug" # comment out for error only tracing, change info to debug for verbose
 SERVICE_CONFIG_VAR_ONE="config var one"
 
 

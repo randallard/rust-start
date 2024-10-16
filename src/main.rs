@@ -1,9 +1,9 @@
 mod error;
-mod fs;
+mod my_module;
 
 pub use self::error::{Error, Result};
 
-use crate::fs::list_files;
+use crate::my_module::my_function;
 
 use tracing::{debug, error, info};
 use tracing_subscriber::EnvFilter;
@@ -17,16 +17,14 @@ fn main() -> Result<()> {
 
     info!("rust-start started");
     
-    let paths = vec!["./some_dir", "./some_dir/empty_dir", "./some_dir/another_dir", "./non_existant"];
-    
-    for path in paths {
-        debug!("Listing files for path: {}", path);        
-        match list_files(path) {
-            Ok(files) => {
-                debug!("{files:#?}");
+    for num in 5..8 {
+        debug!("Processing num: {}", num);        
+        match my_function(num) {
+            Ok(result) => {
+                debug!("returned: {result}");
             },
             Err(e) => {
-                error!("Error processing path '{}': {:?}", path, e);
+                error!("Error processing num '{}': {:?}", num, e);
             }
         }
     }
