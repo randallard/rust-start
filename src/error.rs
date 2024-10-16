@@ -1,5 +1,4 @@
 use derive_more::From;
-use tracing::error;
 
 pub type Result<T> = core::result::Result<T, Error>;
 
