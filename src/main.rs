@@ -1,8 +1,10 @@
+mod config;
 mod error;
 
 pub use self::error::{Error, Result};
+pub use config::config;
 
-use tracing::info;
+use tracing::{debug,info};
 use tracing_subscriber::EnvFilter;
 
 
@@ -13,6 +15,8 @@ fn main() -> Result<()> {
         .init();
 
     info!("rust-start started");
+    
+    debug!("got config CONFIG_VAR_ONE: {}", &config().CONFIG_VAR_ONE);
 
     info!("rust-start complete");
 
