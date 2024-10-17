@@ -15,8 +15,9 @@ fn main() -> Result<()> {
         .init();
 
     info!("rust-start started");
-    
+
     debug!("got config CONFIG_VAR_ONE: {}", &config().CONFIG_VAR_ONE);
+    debug!("got config CONFIG_VAR_TWO: {}", &config().CONFIG_VAR_TWO);
 
     info!("rust-start complete");
 
