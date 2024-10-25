@@ -1,0 +1,13 @@
+services:
+  csdk-installer:
+    build:
+      context: ./csdk-installer  # Point to the directory containing the Dockerfile
+      dockerfile: Dockerfile.csdk-installer
+    volumes:
+      - ./csdk-installer:/install  # Mount the installer directory
+      - ./csdk:/opt/IBM/informix  # Mount local csdk directory
+    environment:
+      - INFORMIXDIR=/opt/IBM/informix
+
+volumes:
+  csdk-files:

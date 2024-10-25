@@ -1,0 +1,7 @@
+informix        onsoctcp        ifx         9088
+informix_dr     drsoctcp        ifx         9087
+
+waed_ssl_test                onsocssl  waeddb-test.waed.gtwy.dcn               9089
+waed_ssl               onsocssl  waeddb-rep.waed.gtwy.dcn               9089
+jms1_test_ssl   onsocssl        jms1db-test.sndg.gtwy.dcn         9089
+jms1_live_ssl   onsocssl        jms1db.sndg.gtwy.dcn         9089

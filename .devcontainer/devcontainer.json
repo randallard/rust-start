@@ -1,0 +1,25 @@
+{
+    "name": "Rust Informix Development",
+    "dockerFile": "Dockerfile.dev",
+    "context": "..",
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "serayuzgur.crates",
+                "tamasfe.even-better-toml",
+                "vadimcn.vscode-lldb"
+            ]
+        }
+    },
+    
+    "remoteUser": "vscode",
+    
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/workspace",
+    
+    "mounts": [
+        "source=${localWorkspaceFolder}/csdk,target=/opt/IBM/informix,type=bind,consistency=cached"
+    ]
+}

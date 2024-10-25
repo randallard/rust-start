@@ -1,0 +1,22 @@
+FROM debian:bookworm-slim
+
+# Install required dependencies for the installer
+RUN apt-get update && apt-get install -y \
+    file \
+    libaio1 \
+    libncurses5 \
+    procps \
+    default-jre \  
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for Java
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+# Create working directories
+WORKDIR /install
+
+# Create mount points
+VOLUME ["/install", "/opt/IBM/informix"]
+
+# Keep container running for us to exec into it
+CMD ["tail", "-f", "/dev/null"]

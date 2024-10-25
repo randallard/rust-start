@@ -1,0 +1,35 @@
+FROM rust:1.75-slim-bookworm
+
+# Install development dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libaio1 \
+    libncurses5 \
+    pkg-config \
+    libssl-dev \
+    git \
+    curl \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up CSDK environment
+ENV INFORMIXDIR=/opt/IBM/informix
+ENV CSDK_HOME=/opt/IBM/informix
+ENV LD_LIBRARY_PATH=${INFORMIXDIR}/lib:${INFORMIXDIR}/lib/esql:${INFORMIXDIR}/lib/cli
+ENV INFORMIXSQLHOSTS=${INFORMIXDIR}/etc/sqlhosts
+
+# Create necessary directories
+RUN mkdir -p ${INFORMIXDIR}/lib ${INFORMIXDIR}/lib/esql ${INFORMIXDIR}/lib/cli ${INFORMIXDIR}/etc
+
+# Create non-root user with sudo access
+RUN mkdir -p /etc/sudoers.d && \
+    useradd -m -s /bin/bash vscode && \
+    usermod -aG sudo vscode && \
+    echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode && \
+    chmod 0440 /etc/sudoers.d/vscode
+
+USER vscode
+WORKDIR /workspace
+
+# Set up rust toolchain
+RUN rustup component add clippy rustfmt rust-src

@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    environment:
+      RUST_LOG: odbc_address_verify_and_update=debug
+      SERVICE_CONFIG_VAR_ONE: "${SERVICE_CONFIG_VAR_ONE:?SERVICE_CONFIG_VAR_ONE is required}"
+      SERVICE_CONFIG_VAR_TWO: "${SERVICE_CONFIG_VAR_TWO:?SERVICE_CONFIG_VAR_TWO is required}"
+      # Informix environment setup
+      INFORMIXDIR: /opt/IBM/informix
+      CSDK_HOME: /opt/IBM/informix
+      INFORMIXSQLHOSTS: /opt/IBM/informix/etc/sqlhosts
+      # Connection string for the crate
+      INFORMIXDB_CONN_PARAMS: "SERVER=${INFORMIXSERVER};DATABASE=${DB_NAME};HOST=${DB_HOST};SERVICE=${DB_PORT};UID=${DB_USER};PWD=${DB_PASSWORD}"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./csdk:/opt/IBM/informix:ro
+    networks:
+      - informix_network
+
+networks:
+  informix_network:
+    driver: bridge
