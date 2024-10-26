@@ -14,6 +14,4 @@ DB_NAME="sysmaster"
 DB_USER="informix"
 DB_PASSWORD="in4mix"
 INFORMIXSERVER="informix"
-INFORMIXDB_CONN_PARAMS="SERVER=informix;DATABASE=sysmaster;HOST=host.docker.internal;SERVICE=9088;UID=informix;PWD=in4mix"
-
 

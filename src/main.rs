@@ -6,7 +6,6 @@ pub use config::config;
 use tracing::{info, error};
 use tracing_subscriber::EnvFilter;
 use informix_rust::Connection;
-use std::env;
 
 fn main() -> Result<()> {
     // Initialize tracing
@@ -29,24 +28,46 @@ fn main() -> Result<()> {
 }
 
 fn connect_to_db() -> Result<()> {
+    info!("Creating database connection object");
     let conn = Connection::new()?;
-    info!("Connection object created");
+    info!("Connection object created successfully");
 
-    let conn_string = &env::var("INFORMIXDB_CONN_PARAMS")
-        .map_err(|_| Error::ConfigMissingEnv("INFORMIXDB_CONN_PARAMS"))?;
+    let cfg = config();
+    let conn_string = cfg.get_connection_string();
     
-    info!("Connecting with connection string");
-    conn.connect_with_string(conn_string)?;
+    info!("Attempting connection with string: {}", conn_string);
+    conn.connect_with_string(&conn_string)?;
+    info!("Successfully connected to database");
     
-    // Example query - modify according to your database schema
-    let query = "SELECT FIRST 1 * FROM systables";
+    // Test query - counts tables in systables
+    let query = "SELECT COUNT(*) as table_count FROM systables";
     let stmt = conn.prepare(query)?;
+    info!("Query prepared successfully");
     
     stmt.execute()?;
+    info!("Query executed successfully");
 
-    while let Some(row) = stmt.fetch()? {
-        info!("Query result: {:?}", row);
+    if let Some(row) = stmt.fetch()? {
+        info!("Database contains {} tables", row[0]);
     }
 
+    info!("Database connection test completed successfully");
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_database_connection() -> Result<()> {
+        let _ = tracing_subscriber::fmt()
+            .with_env_filter(EnvFilter::from_default_env())
+            .try_init();
+        
+        info!("Starting database connection test");
+        connect_to_db()?;
+        info!("Database connection test completed");
+        Ok(())
+    }
 }
