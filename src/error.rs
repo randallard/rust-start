@@ -10,6 +10,10 @@ pub enum Error {
     // -- fs (module)
     EmptyFolder,
 
+    // -- Database
+    #[from]
+    InformixError(informix_rust::errors::InformixError),
+
     // -- Externals
     #[from]
     Io(std::io::Error),
@@ -22,6 +26,7 @@ impl core::fmt::Display for Error {
         match self {
             Error::ConfigMissingEnv(val) => write!(fmt, "Config Error - Missing Environment Variable: {}", val),
             Error::EmptyFolder => write!(fmt, "Filesystem Error - Empty Folder"),
+            Error::InformixError(err) => write!(fmt, "Database Error: {}", err),
             Error::Io(err) => write!(fmt, "IO Error: {}", err),
         }
     }
@@ -30,6 +35,7 @@ impl core::fmt::Display for Error {
 impl std::error::Error for Error {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
+            Error::InformixError(err) => Some(err),
             Error::Io(err) => Some(err),
             _ => None,
         }

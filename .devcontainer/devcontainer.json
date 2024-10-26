@@ -7,9 +7,9 @@
         "vscode": {
             "extensions": [
                 "rust-lang.rust-analyzer",
-                "serayuzgur.crates",
                 "tamasfe.even-better-toml",
-                "vadimcn.vscode-lldb"
+                "vadimcn.vscode-lldb",
+                "fill-labs.dependi"
             ]
         }
     },
@@ -20,6 +20,7 @@
     "workspaceFolder": "/workspace",
     
     "mounts": [
-        "source=${localWorkspaceFolder}/csdk,target=/opt/IBM/informix,type=bind,consistency=cached"
+        "source=${localWorkspaceFolder}/csdk,target=/opt/IBM/informix,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/sqlhosts,target=/opt/IBM/informix/etc/sqlhosts,type=bind,consistency=cached"
     ]
 }

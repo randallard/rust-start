@@ -17,6 +17,14 @@ ENV INFORMIXDIR=/opt/IBM/informix
 ENV CSDK_HOME=/opt/IBM/informix
 ENV LD_LIBRARY_PATH=${INFORMIXDIR}/lib:${INFORMIXDIR}/lib/esql:${INFORMIXDIR}/lib/cli
 ENV INFORMIXSQLHOSTS=${INFORMIXDIR}/etc/sqlhosts
+ENV DB_HOST=host.docker.internal
+ENV DB_PORT=9088
+ENV DB_NAME=sysmaster
+ENV DB_USER=informix
+ENV DB_PASSWORD=in4mix
+ENV INFORMIXSERVER=informix
+ENV INFORMIXDB_CONN_PARAMS="SERVER=${INFORMIXSERVER};DATABASE=${DB_NAME};HOST=${DB_HOST};SERVICE=${DB_PORT};UID=${DB_USER};PWD=${DB_PASSWORD}"
+
 
 # Create necessary directories
 RUN mkdir -p ${INFORMIXDIR}/lib ${INFORMIXDIR}/lib/esql ${INFORMIXDIR}/lib/cli ${INFORMIXDIR}/etc
@@ -27,6 +35,12 @@ RUN mkdir -p /etc/sudoers.d && \
     usermod -aG sudo vscode && \
     echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode && \
     chmod 0440 /etc/sudoers.d/vscode
+
+# Copy sqlhosts file
+COPY ../sqlhosts ${INFORMIXDIR}/etc/sqlhosts
+
+# Set appropriate permissions
+RUN chown -R vscode:vscode ${INFORMIXDIR}
 
 USER vscode
 WORKDIR /workspace
