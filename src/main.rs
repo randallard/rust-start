@@ -1,6 +1,9 @@
 mod config;
 mod error;
 
+// #[cfg(test)] // Commented during early development.
+pub mod _dev_utils;
+
 pub use self::error::{Error, Result};
 pub use config::config;
 use tracing::{info, error};
@@ -21,6 +24,8 @@ fn main() -> Result<()> {
         Ok(_) => info!("Successfully connected to database"),
         Err(e) => error!("Failed to connect to database: {}", e)
     }
+
+    
 
     info!("rust-start complete");
 
