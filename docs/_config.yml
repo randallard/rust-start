@@ -1,0 +1,8 @@
+title: Rust Start
+description: Rust fundamentals to use when starting a project
+theme: just-the-docs
+
+url: https://rust-start.github.io
+
+aux_links:
+  Template Repository: https://github.com/just-the-docs/just-the-docs-template
